@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Site.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,9 @@ namespace Site.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            Dictionary<int, string> tests = DataBase.GetTestNames();
+
+            return View(tests);
         }
     }
 }
