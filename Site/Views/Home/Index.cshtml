@@ -1,3 +1,11 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+@foreach (var item in Model)
+{
+<p>
+    <a href="">@item.Value</a>
+    @Html.ActionLink("start", "Test", new { id = item.Key});
+</p>
+}
