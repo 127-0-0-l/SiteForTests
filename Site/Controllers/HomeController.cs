@@ -16,7 +16,7 @@ namespace Site.Controllers
             return View(tests);
         }
 
-        public ActionResult Test(int testId)
+        public ActionResult Test(int testId = 1)
         {
             var test = DataBase.GetQuestions(testId);
 

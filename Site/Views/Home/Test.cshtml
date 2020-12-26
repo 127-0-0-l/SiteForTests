@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Test";
 }
 
@@ -8,6 +7,8 @@
     <p>@question.QuestionText</p>
     foreach (var answer in question.Answers)
     {
-        <p>@answer.Value</p>
+        @InputExtensions.RadioButton(Html, question.QuestionText, 1);
+        <a>@answer.Value</a>
+        <br />
     }
 }
