@@ -11,9 +11,16 @@ namespace Site.Controllers
     {
         public ActionResult Index()
         {
-            Dictionary<int, string> tests = DataBase.GetTestNames();
+            var tests = DataBase.GetTestNames();
 
             return View(tests);
+        }
+
+        public ActionResult Test(int testId)
+        {
+            var test = DataBase.GetQuestions(testId);
+
+            return View(test);
         }
     }
 }

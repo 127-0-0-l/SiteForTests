@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+@foreach (var question in Model)
+{
+    <p>@question.QuestionText</p>
+    foreach (var answer in question.Answers)
+    {
+        <p>@answer.Value</p>
+    }
+}

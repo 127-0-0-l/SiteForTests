@@ -41,6 +41,7 @@ namespace Site.Models
                 "on q.Id = a.QuestionId " +
                 "where (q.TestId = @id and a.TestId = @id)";
             SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("id", testId);
             sqlConnection.Open();
 
             using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
@@ -51,7 +52,7 @@ namespace Site.Models
                     {
                         Question question = new Question();
                         question.QuestionText = sqlReader["Question"].ToString();
-                        question.RightAnswer = int.Parse(sqlReader["RightAnswer"].ToString());
+                        question.RightAnswer = int.Parse(sqlReader["RightAnswerId"].ToString());
                         question.Answers.Add(int.Parse(sqlReader["Id"].ToString()), sqlReader["Answer"].ToString());
                         questions.Add(question);
                     }

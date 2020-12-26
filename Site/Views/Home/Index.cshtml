@@ -5,7 +5,7 @@
 @foreach (var item in Model)
 {
 <p>
-    <a href="">@item.Value</a>
-    @Html.ActionLink("start", "Test", new { id = item.Key});
+    <a>@item.Value</a>
+    @Html.ActionLink("start", "Test", new { testId = item.Key});
 </p>
 }
