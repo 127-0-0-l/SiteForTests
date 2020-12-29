@@ -1,14 +1,53 @@
 ﻿@{
     ViewBag.Title = "Test";
+    int count = 0;
+    int questionCount = 0;
 }
 
 @foreach (var question in Model)
 {
     <p>@question.QuestionText</p>
+    questionCount++;
     foreach (var answer in question.Answers)
     {
-        @InputExtensions.RadioButton(Html, question.QuestionText, 1);
+        if (question.RightAnswer == answer.Key)
+        {
+            @InputExtensions.RadioButton(Html, question.QuestionText, "true", new { id = count++ });
+        }
+        else
+        {
+            @InputExtensions.RadioButton(Html, question.QuestionText, "false", new { id = count++ });
+        }
         <a>@answer.Value</a>
         <br />
     }
 }
+
+<button id="but" OnClick="b()">finish</button>
+<br id="brrr" />
+<script type="text/javascript">
+    @*function a() {
+        for (var i = 0; i < @count; i++) {
+            brrr.after(document.getElementById(i).checked)
+        }
+    }*@
+    
+    function b() {
+        var right = 0
+        var wrong = 0;
+
+        for (var i = 0; i < @count; i++) {
+            if (document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'true') {
+                right++
+            }
+            else if (!document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'true') {
+                wrong++
+            }
+            //else if (document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'false') {
+            //    wrong++
+            //}
+        }
+
+        brrr.after('right: ' + right + '  wrong: ' + wrong)
+    }
+</script>

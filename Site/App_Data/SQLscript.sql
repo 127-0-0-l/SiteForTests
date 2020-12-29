@@ -110,8 +110,8 @@ insert into Answers values (3, 5, 2, '0')
 insert into Answers values (3, 5, 3, '-2')
 
 
-
-
+update Questions set Question='how many + in C#?' where TestId=4 and Id=1
+select * from Questions
 
 insert into Tests values (4, 'C# test')
 

@@ -1,4 +1,14 @@
-﻿#head{
-    background-color: #0094ff;
+﻿body {
+    margin: 0;
+    padding: 0;
+}
 
+.headerText {
+    margin: 0;
+    padding: 0;
+}
+
+#head {
+    background-color: #0094ff;
+    width: 100%;
 }
