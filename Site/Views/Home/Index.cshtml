@@ -6,6 +6,7 @@
 {
 <p>
     <a>@item.Value</a>
-    @Html.ActionLink("start", "Test", new { testId = item.Key});
+    @Html.ActionLink("start", "Test", new { testId = item.Key})
+    @Html.ActionLink("edit", "EditTest", new { testId = item.Key})
 </p>
 }

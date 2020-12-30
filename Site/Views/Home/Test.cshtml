@@ -23,18 +23,14 @@
     }
 }
 
-<button id="but" OnClick="b()">finish</button>
-<br id="brrr" />
-<script type="text/javascript">
-    @*function a() {
-        for (var i = 0; i < @count; i++) {
-            brrr.after(document.getElementById(i).checked)
-        }
-    }*@
-    
-    function b() {
-        var right = 0
-        var wrong = 0;
+<button id="but" OnClick="ShowResult()">finish</button>
+<p id="result" />
+
+<script language="javascript">
+    var right = 0
+    var wrong = 0;
+
+    function ShowResult() {
 
         for (var i = 0; i < @count; i++) {
             if (document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'true') {
@@ -43,11 +39,9 @@
             else if (!document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'true') {
                 wrong++
             }
-            //else if (document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'false') {
-            //    wrong++
-            //}
         }
 
-        brrr.after('right: ' + right + '  wrong: ' + wrong)
+        result.textContent = 'right: ' + right + '  wrong: ' + wrong;
+        //result.after('right: ' + right + '  wrong: ' + wrong)
     }
 </script>

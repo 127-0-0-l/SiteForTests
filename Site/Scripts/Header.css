@@ -3,12 +3,32 @@
     padding: 0;
 }
 
-.headerText {
-    margin: 0;
-    padding: 0;
-}
-
-#head {
+#header {
     background-color: #0094ff;
     width: 100%;
+    padding: 10px;
+}
+
+#headerHomeButton {
+    margin: 10px;
+    color: black;
+    background-color: #0094ff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#headerHomeButton:hover{
+    color: dimgrey;
+}
+
+#headerButton {
+    margin: 10px;
+    background-color: #0094ff;
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+#headerButton:hover {
+    color: dimgrey;
 }

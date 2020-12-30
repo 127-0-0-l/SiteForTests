@@ -71,5 +71,15 @@ namespace Site.Models
 
             return questions;
         }
+
+        public static void AddTest(Test test)
+        {
+
+        }
+
+        public static void RemoveTest(int testId)
+        {
+
+        }
     }
 }

@@ -22,5 +22,20 @@ namespace Site.Controllers
 
             return View(test);
         }
+
+        public ActionResult AddTest()
+        {
+            return View();
+        }
+
+        public ActionResult EditTest(int testId)
+        {
+            return View(DataBase.GetQuestions(testId));
+        }
+
+        public void RemoveTest(int testId)
+        {
+
+        }
     }
 }

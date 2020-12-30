@@ -2,6 +2,11 @@
 drop table Questions
 drop table Tests
 
+update Questions set Question='how many + in C#?' where TestId=4 and Id=1
+select * from Answers
+
+insert into Tests values (4, 'C# test')
+
 select Question, RightAnswerId, a.Id, Answer
 from Questions q
 inner join Answers a
@@ -110,10 +115,8 @@ insert into Answers values (3, 5, 2, '0')
 insert into Answers values (3, 5, 3, '-2')
 
 
-update Questions set Question='how many + in C#?' where TestId=4 and Id=1
-select * from Questions
 
-insert into Tests values (4, 'C# test')
+
 
 insert into Questions values (4, 1, 'how many '+' in C#?', 3)
 insert into Answers values (4, 1, 1, 'null')
