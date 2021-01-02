@@ -1,16 +1,20 @@
 ﻿@{
     ViewBag.Title = "AddTest";
+    string str = "";
 }
 
 <div id="testName">
     Test name
-    <input type="text" />
+    <input id="testNameText" type="text" />
     <br />
     <button onclick="AddQuestion()">Add question</button>
 </div>
 
 <br />
-<button id="btnCreate" onclick="CreateTest()">Create</button>
+<button id="btnCreate" onclick="CreateTest(@str)">Create</button>
+
+<br />
+<button id="btnCreate" onclick="@str = GetSomeValue()">GetValue</button>
 
 <script language="javascript">
     class Test {
@@ -46,35 +50,47 @@
 
     function AddAnswer(questionId) {
         var answer = document.createElement('div')
+        answer.id = 'answer' + questionId
         answersCount.set(questionId, answersCount.get(questionId) + 1)
 
-        answer.innerHTML = answersCount.get(questionId) + '. answer<input type="text" />'
+        var answerNum = answersCount.get(questionId)
+        var innerString = '. answer<input id=' + questionId + 'answerText' + answerNum + ' type="text" />'
+
+        answer.innerHTML = answerNum + innerString
 
         var element = document.getElementById('question' + questionId)
         element.append(answer)
     }
 
-    function CreateTest() {
-        var test = new Test();
+    function CreateTest(str) {
+        var a = document.getElementById('testNameText')
+        var b = document.getElementById(1 + 'answerText' + 2)
+        //a.value = b.value
+        a.value = str
     }
 
-    function GetQuestion(questionId) {
-        var div = document.getElementById(questionId)
+    function GetQuestion(questionId, answersCount) {
+        var a = document.getElementById('testName')
+        var b = document.getElementById('')
+    }
+
+    function GetSomeValue() {
+        return 'hello';
     }
 
 </script>
 
 @*<div>
-    1. question
-    <input type="text"/>
-    <br />
-    right answer
-    <input type="number"/>
-    <br />
-    <button onclick="AddAnswer()">Add answer</button>
-</div>*@
+        1. question
+        <input type="text"/>
+        <br />
+        right answer
+        <input type="number"/>
+        <br />
+        <button onclick="AddAnswer()">Add answer</button>
+    </div>*@
 
 @*<div>
-    answersCount.get(questionId) + '. answer'
-    <input type="text" />
-</div>*@
+        answersCount.get(questionId) + '. answer'
+        <input type="text" />
+    </div>*@
