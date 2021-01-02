@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "AddTest";
-    string str = "";
 }
 
 <div id="testName">
@@ -11,20 +10,16 @@
 </div>
 
 <br />
-<button id="btnCreate" onclick="CreateTest(@str)">Create</button>
-
-<br />
-<button id="btnCreate" onclick="@str = GetSomeValue()">GetValue</button>
+<button id="btnCreate" onclick="CreateTest()">Create</button>
 
 <script language="javascript">
     class Test {
         testName
-        rightAnswerId
-        questions = new List()
+        questions
     }
 
     class Question {
-        questioinText
+        questionText
         rightAnswerId
         answers = new Map()
     }
@@ -62,11 +57,13 @@
         element.append(answer)
     }
 
-    function CreateTest(str) {
-        var a = document.getElementById('testNameText')
-        var b = document.getElementById(1 + 'answerText' + 2)
-        //a.value = b.value
-        a.value = str
+    function CreateTest() {
+        var test = new Test();
+        test.testName = document.getElementById("testNameText").value
+
+        for (var i = 0; i < length; i++) {
+
+        }
     }
 
     function GetQuestion(questionId, answersCount) {
@@ -74,23 +71,19 @@
         var b = document.getElementById('')
     }
 
-    function GetSomeValue() {
-        return 'hello';
+    function LoadJsonData(jsonString) {
+        try {
+            $.ajax({
+                type: "POST",
+                url: "NewTestHandler.ashx",
+                cache: false,
+                data: postdata,
+                dataType: "json",
+            })
+        }
+        catch (exeption) {
+            alert(exeption)
+        }
     }
 
 </script>
-
-@*<div>
-        1. question
-        <input type="text"/>
-        <br />
-        right answer
-        <input type="number"/>
-        <br />
-        <button onclick="AddAnswer()">Add answer</button>
-    </div>*@
-
-@*<div>
-        answersCount.get(questionId) + '. answer'
-        <input type="text" />
-    </div>*@
