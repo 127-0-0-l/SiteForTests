@@ -15,7 +15,7 @@
 <script language="javascript">
     class Test {
         testName
-        questions
+        questions = []
     }
 
     class Question {
@@ -37,7 +37,7 @@
             questionCount + '. question' +
             '<input id=questionText' + questionCount + ' type=text/><br />' +
             'right answer' +
-            '<input id=rightAnswer' + questionCount + ' type=number><br />' +
+            '<input id=rightAnswerId' + questionCount + ' type=number><br />' +
             '<button onclick=AddAnswer(' + questionCount + ')>Add answer</button>'
 
         btnCreate.before(div)
@@ -61,14 +61,27 @@
         var test = new Test();
         test.testName = document.getElementById("testNameText").value
 
-        for (var i = 0; i < length; i++) {
+        for (var i = 1; document.getElementById('questionText' + i); i++) {
+            var newQuestion = new Question()
 
+            newQuestion.questionText = document.getElementById('questionText' + i).value
+            if (newQuestion.questionText == '') {
+                document.getElementById('questionText' + i).attributes("color: 000")
+                continue
+            }
+
+            newQuestion.rightAnswerId = document.getElementById('rightAnswerId' + i).value
+            if (newQuestion.rightAnswerId == '') {
+                continue
+            }
+
+            for (var j = 1; document.getElementById(i + 'answerText' + j); j++) {
+                newQuestion.answers.set(j, document.getElementById(i + 'answerText' + j).value)
+            }
+            test.questions.push(newQuestion)
         }
-    }
 
-    function GetQuestion(questionId, answersCount) {
-        var a = document.getElementById('testName')
-        var b = document.getElementById('')
+        console.log(test)
     }
 
     function LoadJsonData(jsonString) {
