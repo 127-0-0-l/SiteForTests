@@ -52,7 +52,7 @@ namespace Site.Models
                     {
                         Question question = new Question();
                         question.QuestionText = sqlReader["Question"].ToString();
-                        question.RightAnswer = int.Parse(sqlReader["RightAnswerId"].ToString());
+                        question.RightAnswerId = int.Parse(sqlReader["RightAnswerId"].ToString());
                         question.Answers.Add(int.Parse(sqlReader["Id"].ToString()), sqlReader["Answer"].ToString());
                         questions.Add(question);
                     }

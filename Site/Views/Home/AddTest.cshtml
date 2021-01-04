@@ -12,16 +12,17 @@
 <br />
 <button id="btnCreate" onclick="CreateTest()">Create</button>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script language="javascript">
     class Test {
-        testName
-        questions = []
+        TestName
+        Questions = []
     }
 
     class Question {
-        questionText
-        rightAnswerId
-        answers = new Map()
+        QuestionText
+        RightAnswerId
+        Answers = new Map()
     }
 
     var questionCount = 0
@@ -65,38 +66,29 @@
             var newQuestion = new Question()
 
             newQuestion.questionText = document.getElementById('questionText' + i).value
-            if (newQuestion.questionText == '') {
-                document.getElementById('questionText' + i).attributes("color: 000")
-                continue
-            }
-
             newQuestion.rightAnswerId = document.getElementById('rightAnswerId' + i).value
-            if (newQuestion.rightAnswerId == '') {
-                continue
-            }
 
             for (var j = 1; document.getElementById(i + 'answerText' + j); j++) {
                 newQuestion.answers.set(j, document.getElementById(i + 'answerText' + j).value)
             }
+
             test.questions.push(newQuestion)
         }
 
-        console.log(test)
+        var jsonString = JSON.stringify(test)
+
+        LoadJsonData(jsonString)
     }
 
     function LoadJsonData(jsonString) {
-        try {
-            $.ajax({
-                type: "POST",
-                url: "NewTestHandler.ashx",
-                cache: false,
-                data: postdata,
-                dataType: "json",
-            })
-        }
-        catch (exeption) {
-            alert(exeption)
-        }
+        $.post("@Url.Action("ProcessData", "Home")", { jsonString: jsonString }, function (data) {
+            if (data.status == 1) {
+                alert(data.message)
+            }
+            else {
+                alert('something wrong')
+            }
+        })
     }
 
 </script>

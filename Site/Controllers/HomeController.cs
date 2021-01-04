@@ -37,5 +37,14 @@ namespace Site.Controllers
         {
 
         }
+
+        [HttpPost]
+        public ActionResult ProcessData(string jsonString)
+        {
+            System.Web.Script.Serialization.JavaScriptSerializer jSerialize =
+                    new System.Web.Script.Serialization.JavaScriptSerializer();
+            Test test = jSerialize.Deserialize<Test>(jsonString);
+            return Json(new { status = 1, message = test.TestName });
+        }
     }
 }
