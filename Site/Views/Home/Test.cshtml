@@ -10,7 +10,7 @@
     questionCount++;
     foreach (var answer in question.Answers)
     {
-        if (question.RightAnswer == answer.Key)
+        if (question.RightAnswerId == answer.Key)
         {
             @InputExtensions.RadioButton(Html, question.QuestionText, "true", new { id = count++ });
         }

@@ -15,6 +15,7 @@ namespace Site.Models
 
             string queryString = "select Id, TestName from Tests";
             SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
+            sqlConnection.Close();
             sqlConnection.Open();
 
             using(SqlDataReader sqlReader = sqlCommand.ExecuteReader())
@@ -53,14 +54,14 @@ namespace Site.Models
                         Question question = new Question();
                         question.QuestionText = sqlReader["Question"].ToString();
                         question.RightAnswerId = int.Parse(sqlReader["RightAnswerId"].ToString());
-                        question.Answers.Add(int.Parse(sqlReader["Id"].ToString()), sqlReader["Answer"].ToString());
+                        question.Answers.Add(sqlReader["Id"].ToString(), sqlReader["Answer"].ToString());
                         questions.Add(question);
                     }
                     else
                     {
                         questions[questions.Count - 1].Answers.Add
                         (
-                            int.Parse(sqlReader["Id"].ToString()),
+                            sqlReader["Id"].ToString(),
                             sqlReader["Answer"].ToString()
                         );
                     }
@@ -74,12 +75,95 @@ namespace Site.Models
 
         public static void AddTest(Test test)
         {
+            int maxTestId;
+            int currentTestId;
+            string queryString;
+            SqlCommand sqlCommand;
 
+            sqlConnection.Open();
+
+            // Get max test id.
+            maxTestId = 0;
+            queryString = "select max(Id) from Tests";
+            sqlCommand = new SqlCommand(queryString, sqlConnection);
+            using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
+            {
+                if (sqlReader.Read())
+                {
+                    try
+                    {
+                        maxTestId = int.Parse(sqlReader[0].ToString());
+                    }
+                    catch
+                    {
+                        maxTestId = 0;
+                    }
+                }
+            }
+
+            // Insert line in Tests.
+            currentTestId = maxTestId + 1;
+            queryString = "insert into Tests values (@testId, @testName)";
+            sqlCommand = new SqlCommand(queryString, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
+            sqlCommand.Parameters.AddWithValue("@testName", test.TestName);
+            sqlCommand.ExecuteNonQuery();
+
+            int questionsCount = test.Questions.Count;
+            for (int questionId = 0; questionId < questionsCount; questionId++)
+            {
+                // Insert line in Questions.
+                queryString = "insert into Questions values (@testId, @questionId, @questionText, @rightAnswerId)";
+                sqlCommand = new SqlCommand(queryString, sqlConnection);
+                sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
+                sqlCommand.Parameters.AddWithValue("@questionId", questionId + 1);
+                sqlCommand.Parameters.AddWithValue("@questionText", test.Questions[questionId].QuestionText);
+                sqlCommand.Parameters.AddWithValue("@rightAnswerId", test.Questions[questionId].RightAnswerId);
+                sqlCommand.ExecuteNonQuery();
+
+                int answersCount = test.Questions[questionId].Answers.Count;
+                for (int answerId = 0; answerId < answersCount; answerId++)
+                {
+                    // Insert line in Answers.
+                    queryString = "insert into Answers values (@testId, @questionId, @answerId, @answerText)";
+                    sqlCommand = new SqlCommand(queryString, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
+                    sqlCommand.Parameters.AddWithValue("@questionId", questionId + 1);
+                    sqlCommand.Parameters.AddWithValue("@answerId", answerId + 1);
+                    sqlCommand.Parameters.AddWithValue("@answerText", test.Questions[questionId].Answers[answerId.ToString()]);
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
+
+            sqlConnection.Close();
         }
 
         public static void RemoveTest(int testId)
         {
+            string queryString;
+            SqlCommand sqlCommand;
 
+            sqlConnection.Open();
+
+            // Delete from Tests.
+            queryString = "delete from Tests where Id=@id";
+            sqlCommand = new SqlCommand(queryString, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@id", testId);
+            sqlCommand.ExecuteNonQuery();
+
+            // Delete from Questions.
+            queryString = "delete from Questions where TestId=@testId";
+            sqlCommand = new SqlCommand(queryString, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@testId", testId);
+            sqlCommand.ExecuteNonQuery();
+
+            // Delete from Answers.
+            queryString = "delete from Answers where TestId=@testId";
+            sqlCommand = new SqlCommand(queryString, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@testId", testId);
+            sqlCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
         }
     }
 }

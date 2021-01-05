@@ -60,19 +60,21 @@
 
     function CreateTest() {
         var test = new Test();
-        test.testName = document.getElementById("testNameText").value
+        test.TestName = document.getElementById("testNameText").value
 
         for (var i = 1; document.getElementById('questionText' + i); i++) {
             var newQuestion = new Question()
 
-            newQuestion.questionText = document.getElementById('questionText' + i).value
-            newQuestion.rightAnswerId = document.getElementById('rightAnswerId' + i).value
+            newQuestion.QuestionText = document.getElementById('questionText' + i).value
+            newQuestion.RightAnswerId = document.getElementById('rightAnswerId' + i).value
 
-            for (var j = 1; document.getElementById(i + 'answerText' + j); j++) {
-                newQuestion.answers.set(j, document.getElementById(i + 'answerText' + j).value)
+            for (var j = 1; document.getElementById(i + 'answerText' + j) != null; j++) {
+                var text = document.getElementById(i + 'answerText' + j).value
+                alert(text)
+                newQuestion.Answers.set(j, text)
             }
-
-            test.questions.push(newQuestion)
+            alert(JSON.stringify(newQuestion.Answers))
+            test.Questions.push(newQuestion)
         }
 
         var jsonString = JSON.stringify(test)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Site.Controllers
 {
@@ -41,10 +42,12 @@ namespace Site.Controllers
         [HttpPost]
         public ActionResult ProcessData(string jsonString)
         {
-            System.Web.Script.Serialization.JavaScriptSerializer jSerialize =
-                    new System.Web.Script.Serialization.JavaScriptSerializer();
+            JavaScriptSerializer jSerialize = new JavaScriptSerializer();
             Test test = jSerialize.Deserialize<Test>(jsonString);
-            return Json(new { status = 1, message = test.TestName });
+
+            DataBase.AddTest(test);
+
+            return Json(new { status = 1, message = "test created" });
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Site.Models
     {
         public string QuestionText { get; set; }
         public int RightAnswerId { get; set; }
-        public Dictionary<int, string> Answers { get; set; } = new Dictionary<int, string>();
+        public Dictionary<string, string> Answers { get; set; } = new Dictionary<string, string>();
     }
 }

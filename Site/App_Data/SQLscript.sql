@@ -3,7 +3,20 @@ drop table Questions
 drop table Tests
 
 update Questions set Question='how many + in C#?' where TestId=4 and Id=1
+
+select * from Tests
+select * from Questions
 select * from Answers
+
+delete from Tests
+delete from Questions
+delete from Answers
+
+delete from Tests where Id=5
+delete from Questions where TestId=5
+delete from Answers where TestId=5
+
+select max(Id) from Tests
 
 insert into Tests values (4, 'C# test')
 
