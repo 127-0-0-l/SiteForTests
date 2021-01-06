@@ -15,7 +15,6 @@ namespace Site.Models
 
             string queryString = "select Id, TestName from Tests";
             SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
-            sqlConnection.Close();
             sqlConnection.Open();
 
             using(SqlDataReader sqlReader = sqlCommand.ExecuteReader())
@@ -43,13 +42,15 @@ namespace Site.Models
                 "where (q.TestId = @id and a.TestId = @id)";
             SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
             sqlCommand.Parameters.AddWithValue("id", testId);
+
             sqlConnection.Open();
 
             using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
             {
                 while (sqlReader.Read())
                 {
-                    if (questions.Count == 0 || questions[questions.Count - 1].QuestionText != sqlReader["Question"].ToString())
+                    if (questions.Count == 0 ||
+                        questions[questions.Count - 1].QuestionText != sqlReader["Question"].ToString())
                     {
                         Question question = new Question();
                         question.QuestionText = sqlReader["Question"].ToString();
@@ -79,63 +80,41 @@ namespace Site.Models
 
         public static void AddTest(Test test)
         {
-            int maxTestId;
-            int currentTestId;
+            int testId;
             string queryString;
-            SqlCommand sqlCommand;
 
             sqlConnection.Open();
 
-            // Get max test id.
-            maxTestId = 0;
-            queryString = "select max(Id) from Tests";
-            sqlCommand = new SqlCommand(queryString, sqlConnection);
-            using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
-            {
-                if (sqlReader.Read())
-                {
-                    try
-                    {
-                        maxTestId = int.Parse(sqlReader[0].ToString());
-                    }
-                    catch
-                    {
-                        maxTestId = 0;
-                    }
-                }
-            }
+            // Get current test id.
+            testId = GetMaxTestId() + 1;
 
             // Insert line in Tests.
-            currentTestId = maxTestId + 1;
             queryString = "insert into Tests values (@testId, @testName)";
-            sqlCommand = new SqlCommand(queryString, sqlConnection);
-            sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
-            sqlCommand.Parameters.AddWithValue("@testName", test.TestName);
-            sqlCommand.ExecuteNonQuery();
+            ExecuteQuery( queryString,
+                new KeyValuePair<string, object>("@testId", testId),
+                new KeyValuePair<string, object>("@testName", test.TestName));
 
             int questionsCount = test.Questions.Count;
             for (int questionId = 0; questionId < questionsCount; questionId++)
             {
                 // Insert line in Questions.
                 queryString = "insert into Questions values (@testId, @questionId, @questionText, @rightAnswerId)";
-                sqlCommand = new SqlCommand(queryString, sqlConnection);
-                sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
-                sqlCommand.Parameters.AddWithValue("@questionId", questionId + 1);
-                sqlCommand.Parameters.AddWithValue("@questionText", test.Questions[questionId].QuestionText);
-                sqlCommand.Parameters.AddWithValue("@rightAnswerId", test.Questions[questionId].RightAnswerId);
-                sqlCommand.ExecuteNonQuery();
+                ExecuteQuery( queryString,
+                    new KeyValuePair<string, object>("@testId", testId),
+                    new KeyValuePair<string, object>("@questionId", questionId + 1),
+                    new KeyValuePair<string, object>("@questionText", test.Questions[questionId].QuestionText),
+                    new KeyValuePair<string, object>("@rightAnswerId", test.Questions[questionId].RightAnswerId));
 
                 int answersCount = test.Questions[questionId].Answers.Count;
                 for (int answerId = 0; answerId < answersCount; answerId++)
                 {
                     // Insert line in Answers.
                     queryString = "insert into Answers values (@testId, @questionId, @answerId, @answerText)";
-                    sqlCommand = new SqlCommand(queryString, sqlConnection);
-                    sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
-                    sqlCommand.Parameters.AddWithValue("@questionId", questionId + 1);
-                    sqlCommand.Parameters.AddWithValue("@answerId", answerId + 1);
-                    sqlCommand.Parameters.AddWithValue("@answerText", test.Questions[questionId].Answers[answerId].AnswerText);
-                    sqlCommand.ExecuteNonQuery();
+                    ExecuteQuery( queryString,
+                        new KeyValuePair<string, object>("@testId", testId),
+                        new KeyValuePair<string, object>("@questionId", questionId + 1),
+                        new KeyValuePair<string, object>("@answerId", answerId + 1),
+                        new KeyValuePair<string, object>("@answerText", test.Questions[questionId].Answers[answerId].AnswerText));
                 }
             }
 
@@ -145,29 +124,60 @@ namespace Site.Models
         public static void DeleteTest(int testId)
         {
             string queryString;
-            SqlCommand sqlCommand;
 
             sqlConnection.Open();
 
             // Delete from Tests.
             queryString = "delete from Tests where Id=@id";
-            sqlCommand = new SqlCommand(queryString, sqlConnection);
-            sqlCommand.Parameters.AddWithValue("@id", testId);
-            sqlCommand.ExecuteNonQuery();
+            ExecuteQuery(queryString, new KeyValuePair<string, object>("@id", testId));
 
             // Delete from Questions.
             queryString = "delete from Questions where TestId=@testId";
-            sqlCommand = new SqlCommand(queryString, sqlConnection);
-            sqlCommand.Parameters.AddWithValue("@testId", testId);
-            sqlCommand.ExecuteNonQuery();
+            ExecuteQuery(queryString, new KeyValuePair<string, object>("@testId", testId));
 
             // Delete from Answers.
             queryString = "delete from Answers where TestId=@testId";
-            sqlCommand = new SqlCommand(queryString, sqlConnection);
-            sqlCommand.Parameters.AddWithValue("@testId", testId);
-            sqlCommand.ExecuteNonQuery();
+            ExecuteQuery(queryString, new KeyValuePair<string, object>("@testId", testId));
 
             sqlConnection.Close();
         }
+
+        private static int GetMaxTestId()
+        {
+            int id = 0;
+
+            string queryString = "select max(Id) from Tests";
+            SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
+            using (SqlDataReader sqlReader = sqlCommand.ExecuteReader())
+            {
+                if (sqlReader.Read())
+                {
+                    try
+                    {
+                        id = int.Parse(sqlReader[0].ToString());
+                    }
+                    catch { }
+                }
+            }
+
+            return id;
+        }
+
+        private static void ExecuteQuery(string queryString, params KeyValuePair<string, object>[] sqlParameters)
+        {
+            SqlCommand sqlCommand;
+            sqlCommand = new SqlCommand(queryString, sqlConnection);
+            foreach (var p in sqlParameters)
+            {
+                sqlCommand.Parameters.AddWithValue(p.Key, p.Value);
+            }
+            sqlCommand.ExecuteNonQuery();
+        }
     }
 }
+
+
+
+// 173 lines
+
+// ?
