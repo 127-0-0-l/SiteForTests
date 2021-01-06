@@ -29,18 +29,14 @@ namespace Site.Controllers
             return View();
         }
 
-        public ActionResult EditTest(int testId)
+        public ActionResult DeleteTest(int testId)
         {
-            return View(DataBase.GetQuestions(testId));
-        }
-
-        public void RemoveTest(int testId)
-        {
-
+            DataBase.DeleteTest(testId);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult ProcessData(string jsonString)
+        public ActionResult AddTest(string jsonString)
         {
             JavaScriptSerializer jSerialize = new JavaScriptSerializer();
             Test test = jSerialize.Deserialize<Test>(jsonString);

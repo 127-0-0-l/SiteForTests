@@ -77,9 +77,7 @@
 
             for (var j = 1; document.getElementById(i + 'answerText' + j) != null; j++) {
                 var text = document.getElementById(i + 'answerText' + j).value
-                alert(text)
                 newQuestion.Answers.push(new Answer(j, text))
-                alert(JSON.stringify(newQuestion.Answers))
             }
             test.Questions.push(newQuestion)
         }
@@ -90,7 +88,7 @@
     }
 
     function LoadJsonData(jsonString) {
-        $.post("@Url.Action("ProcessData", "Home")", { jsonString: jsonString }, function (data) {
+        $.post("@Url.Action("AddTest", "Home")", { jsonString: jsonString }, function (data) {
             if (data.status == 1) {
                 alert(data.message)
             }

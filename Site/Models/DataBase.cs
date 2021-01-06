@@ -142,7 +142,7 @@ namespace Site.Models
             sqlConnection.Close();
         }
 
-        public static void RemoveTest(int testId)
+        public static void DeleteTest(int testId)
         {
             string queryString;
             SqlCommand sqlCommand;
