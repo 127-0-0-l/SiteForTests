@@ -11,6 +11,7 @@ namespace Site.Models
 
         public static Dictionary<int, string> GetTestNames()
         {
+            // Function output.
             Dictionary<int, string> testNames = new Dictionary<int, string>();
 
             string queryString = "select Id, TestName from Tests";
@@ -32,6 +33,7 @@ namespace Site.Models
 
         public static List<Question> GetQuestions(int testId)
         {
+            // Function output.
             List<Question> questions = new List<Question>();
 
             string queryString = 
@@ -49,9 +51,12 @@ namespace Site.Models
             {
                 while (sqlReader.Read())
                 {
+                    // If it is first question or
+                    // if it is not the same question as previous.
                     if (questions.Count == 0 ||
                         questions[questions.Count - 1].QuestionText != sqlReader["Question"].ToString())
                     {
+                        // Add new question and first answer.
                         Question question = new Question();
                         question.QuestionText = sqlReader["Question"].ToString();
                         question.RightAnswerId = int.Parse(sqlReader["RightAnswerId"].ToString());
@@ -64,6 +69,7 @@ namespace Site.Models
                     }
                     else
                     {
+                        // Add next answer to question.
                         questions[questions.Count - 1].Answers.Add(new Answer
                         {
                             Id = int.Parse(sqlReader["Id"].ToString()),
@@ -175,9 +181,3 @@ namespace Site.Models
         }
     }
 }
-
-
-
-// 173 lines
-
-// ?
