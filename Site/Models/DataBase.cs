@@ -54,16 +54,20 @@ namespace Site.Models
                         Question question = new Question();
                         question.QuestionText = sqlReader["Question"].ToString();
                         question.RightAnswerId = int.Parse(sqlReader["RightAnswerId"].ToString());
-                        question.Answers.Add(sqlReader["Id"].ToString(), sqlReader["Answer"].ToString());
+                        question.Answers.Add(new Answer
+                        {
+                            Id = int.Parse(sqlReader["Id"].ToString()),
+                            AnswerText = sqlReader["Answer"].ToString()
+                        });
                         questions.Add(question);
                     }
                     else
                     {
-                        questions[questions.Count - 1].Answers.Add
-                        (
-                            sqlReader["Id"].ToString(),
-                            sqlReader["Answer"].ToString()
-                        );
+                        questions[questions.Count - 1].Answers.Add(new Answer
+                        {
+                            Id = int.Parse(sqlReader["Id"].ToString()),
+                            AnswerText = sqlReader["Answer"].ToString()
+                        });
                     }
                 }
             }
@@ -130,7 +134,7 @@ namespace Site.Models
                     sqlCommand.Parameters.AddWithValue("@testId", currentTestId);
                     sqlCommand.Parameters.AddWithValue("@questionId", questionId + 1);
                     sqlCommand.Parameters.AddWithValue("@answerId", answerId + 1);
-                    sqlCommand.Parameters.AddWithValue("@answerText", test.Questions[questionId].Answers[answerId.ToString()]);
+                    sqlCommand.Parameters.AddWithValue("@answerText", test.Questions[questionId].Answers[answerId].AnswerText);
                     sqlCommand.ExecuteNonQuery();
                 }
             }
