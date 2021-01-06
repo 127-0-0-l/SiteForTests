@@ -22,7 +22,14 @@
     class Question {
         QuestionText
         RightAnswerId
-        Answers = new Map()
+        Answers = []
+    }
+
+    class Answer {
+        constructor(id, answerText) {
+            this.id = id
+            this.answerText = answerText
+        }
     }
 
     var questionCount = 0
@@ -71,9 +78,10 @@
             for (var j = 1; document.getElementById(i + 'answerText' + j) != null; j++) {
                 var text = document.getElementById(i + 'answerText' + j).value
                 alert(text)
-                newQuestion.Answers.set(j, text)
+                //newQuestion.Answers.set(j, text)
+                newQuestion.Answers.push(new Answer(j, text))
+                alert(JSON.stringify(newQuestion.Answers))
             }
-            alert(JSON.stringify(newQuestion.Answers))
             test.Questions.push(newQuestion)
         }
 
