@@ -2,47 +2,29 @@
     ViewBag.Title = "Test";
     int count = 0;
     int questionCount = 0;
-}
 
-@foreach (var question in Model)
-{
-    <p>@question.QuestionText</p>
-    questionCount++;
-    foreach (var answer in question.Answers)
+    // Build questions with answers.
+    foreach (var question in Model)
     {
-        if (question.RightAnswerId == answer.Id)
+        <p>@question.QuestionText</p>
+        questionCount++;
+        foreach (var answer in question.Answers)
         {
-            @InputExtensions.RadioButton(Html, question.QuestionText, "true", new { id = count++ });
+            if (question.RightAnswerId == answer.Id)
+            {
+                @InputExtensions.RadioButton(Html, question.QuestionText, "true", new { id = count++ });
+            }
+            else
+            {
+                @InputExtensions.RadioButton(Html, question.QuestionText, "false", new { id = count++ });
+            }
+            <a>@answer.AnswerText</a>
+            <br />
         }
-        else
-        {
-            @InputExtensions.RadioButton(Html, question.QuestionText, "false", new { id = count++ });
-        }
-        <a>@answer.AnswerText</a>
-        <br />
     }
 }
 
 <button id="but" OnClick="ShowResult()">finish</button>
 <p id="result" />
 
-<script language="javascript">
-    var right = 0
-    var wrong = 0;
-
-    function ShowResult() {
-
-        for (var i = 0; i < @count; i++) {
-            if (document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'true') {
-                right++
-            }
-            else if (!document.getElementById(i).checked && document.getElementById(i).getAttribute('value') == 'true') {
-                wrong++
-            }
-        }
-
-        result.textContent = 'right: ' + right + '  wrong: ' + wrong;
-        right = 0
-        wrong = 0
-    }
-</script>
+<script src="~/Scripts/TestScript.js"></script>
