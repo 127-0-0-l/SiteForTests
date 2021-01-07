@@ -138,6 +138,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\AddTestScript.js" />
     <Content Include="Scripts\Header.css" />
     <Content Include="Scripts\TestScript.js" />
     <Content Include="Web.config" />
