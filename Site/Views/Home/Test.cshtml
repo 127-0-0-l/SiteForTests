@@ -6,7 +6,7 @@
     // Build questions with answers.
     foreach (var question in Model)
     {
-        <p>@question.QuestionText</p>
+        <p class="font">@question.QuestionText</p>
         questionCount++;
         foreach (var answer in question.Answers)
         {
@@ -18,13 +18,13 @@
             {
                 @InputExtensions.RadioButton(Html, question.QuestionText, "false", new { id = count++ });
             }
-            <a>@answer.AnswerText</a>
+            <a class="font">@answer.AnswerText</a>
             <br />
         }
     }
 }
 
-<button id="but" OnClick="ShowResult()">finish</button>
-<p id="result" />
+<button class="font" id="but" OnClick="ShowResult()">finish</button>
+<p class="font" id="result" />
 
 <script src="~/Scripts/TestScript.js"></script>

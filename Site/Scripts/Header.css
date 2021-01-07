@@ -1,4 +1,9 @@
-﻿body {
+﻿@font-face {
+    font-family: Attractive;
+    src: url('../fonts/lettersoup - Attractive Regular.otf');
+}
+
+body {
     margin: 0;
     padding: 0;
 }
@@ -15,6 +20,7 @@
     background-color: #0094ff;
     font-size: 20px;
     text-decoration: none;
+    font-family: Attractive;
 }
 
 #headerHomeButton:hover{
@@ -27,8 +33,13 @@
     color: black;
     font-size: 16px;
     text-decoration: none;
+    font-family: Attractive;
 }
 
 #headerButton:hover {
     color: dimgrey;
+}
+
+.font{
+    font-family: Attractive;
 }

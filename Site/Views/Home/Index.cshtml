@@ -3,8 +3,8 @@
 
     foreach (var item in Model)
     {
-        <p>
-            <a>@item.Value</a>
+        <p class="font">
+            <a class="font">@item.Value</a>
             @Html.ActionLink("start", "Test", new { testId = item.Key })
             @Html.ActionLink("delete", "DeleteTest", new { testId = item.Key })
         </p>

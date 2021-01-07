@@ -24,24 +24,26 @@ function AddQuestion() {
     answersCount.set(questionCount, 0)
 
     var div = document.createElement('div')
+    div.className = 'font'
     div.id = 'question' + questionCount
     div.innerHTML =
         questionCount + '. question' +
-        '<input id=questionText' + questionCount + ' type=text/><br />' +
+        '<input class="font" id=questionText' + questionCount + ' type=text/><br />' +
         'right answer' +
-        '<input id=rightAnswerId' + questionCount + ' type=number><br />' +
-        '<button onclick=AddAnswer(' + questionCount + ')>Add answer</button>'
+        '<input class="font" id=rightAnswerId' + questionCount + ' type=number><br />' +
+        '<button class="font" onclick=AddAnswer(' + questionCount + ')>Add answer</button>'
 
     btnCreate.before(div)
 }
 
 function AddAnswer(questionId) {
     var answer = document.createElement('div')
+    answer.className = 'font'
     answer.id = 'answer' + questionId
     answersCount.set(questionId, answersCount.get(questionId) + 1)
 
     var answerNum = answersCount.get(questionId)
-    var innerString = '. answer<input id=' + questionId + 'answerText' + answerNum + ' type="text" />'
+    var innerString = '. answer<input class="font" id=' + questionId + 'answerText' + answerNum + ' type="text" />'
 
     answer.innerHTML = answerNum + innerString
 

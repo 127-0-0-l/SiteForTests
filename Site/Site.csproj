@@ -162,6 +162,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\lettersoup - Attractive Regular.otf" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Home\AddTest.cshtml" />
