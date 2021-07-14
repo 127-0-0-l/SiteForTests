@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Test";
+    int count = 0;
+    int questionCount = 0;
+
+    // Build questions with answers.
+    foreach (var question in Model)
+    {
+        <p class="font">@question.QuestionText</p>
+        questionCount++;
+        foreach (var answer in question.Answers)
+        {
+            if (question.RightAnswerId == answer.Id)
+            {
+                @InputExtensions.RadioButton(Html, question.QuestionText, "true", new { id = count++ });
+            }
+            else
+            {
+                @InputExtensions.RadioButton(Html, question.QuestionText, "false", new { id = count++ });
+            }
+            <a class="font">@answer.AnswerText</a>
+            <br />
+        }
+    }
+}
+
+<button class="font" id="but" OnClick="ShowResult()">finish</button>
+<p class="font" id="result" />
+
+<script src="~/Scripts/TestScript.js"></script>

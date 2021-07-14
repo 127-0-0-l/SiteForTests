@@ -1,0 +1,41 @@
+﻿@font-face {
+    font-family: Attractive;
+    src: url('../fonts/lettersoup - Attractive Regular.otf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+    background-color: #0094ff;
+    width: 100%;
+    padding: 10px;
+}
+
+#headerHomeButton {
+    margin: 10px;
+    color: black;
+    background-color: #0094ff;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: Attractive;
+}
+
+#headerHomeButton:hover{
+    color: dimgrey;
+}
+
+#headerButton {
+    margin: 10px;
+    background-color: #0094ff;
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    font-family: Attractive;
+}
+
+#headerButton:hover {
+    color: dimgrey;
+}

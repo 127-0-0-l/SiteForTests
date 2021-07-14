@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "AddTest";
+}
+
+<div class="font" id="testName">
+    Test name
+    <input class="font" id="testNameText" type="text" />
+    <br />
+    <button class="font" onclick="AddQuestion()">Add question</button>
+</div>
+
+<br />
+<button class="font" id="btnCreate" onclick="CreateTest()">Create</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/Scripts/AddTestScript.js"></script>
+<script language="javascript">
+    function LoadJsonData(jsonString) {
+        $.post("@Url.Action("AddTest", "Home")", { jsonString: jsonString }, function (data) {
+            if (data.status == 1) {
+                alert(data.message)
+            }
+            else {
+                alert('something wrong')
+            }
+        })
+    }
+</script>
